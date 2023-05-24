@@ -13,7 +13,7 @@ app.config['JSON_AS_ASCII'] = False
 
 
 def create_mysql_conn():
-    # 连接rebecca数据库
+    # pymysql连接rebecca数据库
     conn = pymysql.connect(host=mysql_params['host'],
                            port=mysql_params['port'],
                            user=mysql_params['user'],
@@ -71,6 +71,24 @@ def insert():
     return ret_message
 
 
+@app.route("/update_date", methods=['PATCH'])
+def update():
+    conn = create_mysql_conn()
+    cursor = conn.cursor()
+    info_list = request.json.get("info")
+    for info in info_list:
+        sname = info['Sname']
+        if sname == '李勇':
+            query_sql = "update student set sage=20 where sname='{}';".format(sname)
+            print(query_sql)
+            cursor.execute(query_sql)
+    # 修改后需要commit
+    cursor.close()
+    conn.commit()
+    ret_message = {"code": 0, "status": "successful"}
+    return ret_message
+
+
 @app.route("/delete_data", methods=['DELETE'])
 def delete():
     conn = create_mysql_conn()
@@ -80,7 +98,7 @@ def delete():
         sno = info['Sno']
         query_sql = "delete from student where Sno={};".format(sno)
         cursor.execute(query_sql)
-    #删除后需要commit
+    # 删除后需要commit
     cursor.close()
     conn.commit()
     ret_message = {"code": 0, "status": "successful"}
