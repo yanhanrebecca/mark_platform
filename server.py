@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2022/8/21 下午7:57
-# @Author  : wanzhaofeng
-# @File    : server_main.py
+"""
+Author : rebeccayanhan
+Time   : 2023/5/22 下午5:45
+File   : server.py
+"""
 
 from flask import Flask, jsonify, request
 from service_conf import *
@@ -9,7 +10,6 @@ import pymysql
 import json
 
 app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
 
 
 def create_mysql_conn():
@@ -23,6 +23,10 @@ def create_mysql_conn():
 
     return conn
 
+
+@app.route("/")
+def hi():
+    return "Hi!"
 
 @app.route("/select_data")
 def select():
@@ -71,7 +75,7 @@ def insert():
     return ret_message
 
 
-@app.route("/update_date", methods=['PATCH'])
+@app.route("/update_data", methods=['PATCH'])
 def update():
     conn = create_mysql_conn()
     cursor = conn.cursor()
@@ -79,7 +83,7 @@ def update():
     for info in info_list:
         sname = info['Sname']
         if sname == '李勇':
-            query_sql = "update student set sage=20 where sname='{}';".format(sname)
+            query_sql = "update student set sage=90 where sname='{}';".format(sname)
             print(query_sql)
             cursor.execute(query_sql)
     # 修改后需要commit

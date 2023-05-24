@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2022/8/18 下午5:45
-# @Author  : wanzhaofeng
-# @File    : service_conf.py
+"""
+Author : rebeccayanhan
+Time   : 2023/5/22 下午5:45
+File   : server_conf.py
+"""
 
-# 读写
+# 读写参数
 mysql_params = {
     'host': '127.0.01',
     'user': 'root',
